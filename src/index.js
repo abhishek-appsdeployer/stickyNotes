@@ -5,13 +5,14 @@ import { StickyNote } from "./StickyNote";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
+  const [textPosition, setTextPosition] = useState({ x: 0, y: 0 });
 
   const addStickyNote = () => {
     const newNote = {
       id: Date.now(),
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      text: "Type anythig",
+      x: textPosition.x,
+      y: textPosition.y,
+      text: "",
       width: 200,
       height: 200,
       selected: false,
@@ -21,47 +22,41 @@ const App = () => {
   };
 
   const handleTextChange = (id, value) => {
-    const updatedNotes = notes.map((note) => {
-      if (note.id === id) {
-        return { ...note, text: value };
-      }
-      return note;
-    });
+    const updatedNotes = notes.map((note) =>
+      note.id === id ? { ...note, text: value } : note
+    );
 
     setNotes(updatedNotes);
   };
 
   const handleTextResize = (id, newWidth, newHeight) => {
-    const updatedNotes = notes.map((note) => {
-      if (note.id === id) {
-        return { ...note, width: newWidth, height: newHeight };
-      }
-      return note;
-    });
+    const updatedNotes = notes.map((note) =>
+      note.id === id ? { ...note, width: newWidth, height: newHeight } : note
+    );
 
     setNotes(updatedNotes);
   };
 
   const handleNoteClick = (id) => {
-    const updatedNotes = notes.map((note) => {
-      if (note.id === id) {
-        return { ...note, selected: !note.selected };
-      }
-      return note;
-    });
+    const updatedNotes = notes.map((note) =>
+      note.id === id ? { ...note, selected: !note.selected } : note
+    );
 
     setNotes(updatedNotes);
   };
 
   const handleTextClick = (id, newSelected) => {
-    const updatedNotes = notes.map((note) => {
-      if (note.id === id) {
-        return { ...note, selected: newSelected };
-      }
-      return note;
-    });
+    const updatedNotes = notes.map((note) =>
+      note.id === id ? { ...note, selected: newSelected } : note
+    );
 
     setNotes(updatedNotes);
+  };
+
+  const handleMouseDown = (e) => {
+    const stage = e.currentTarget.getStage();
+    const position = stage.getPointerPosition();
+    setTextPosition(position);
   };
 
   return (
@@ -70,16 +65,7 @@ const App = () => {
       <Stage
         width={window.innerWidth}
         height={window.innerHeight}
-        // onClick={(e) => {
-        //   const isStageClicked = e.currentTarget._id === e.target._id;
-        //   if (isStageClicked) {
-        //     const updatedNotes = notes.map((note) => ({
-        //       ...note,
-        //       selected: false,
-        //     }));
-        //     setNotes(updatedNotes);
-        //   }
-        // }}
+        onMouseDown={handleMouseDown}
       >
         <Layer>
           {notes.map((note) => (
@@ -88,7 +74,7 @@ const App = () => {
               x={note.x}
               y={note.y}
               text={note.text}
-              colour="#FFDAE1"
+              color="#FFDAE1"
               onTextChange={(value) => handleTextChange(note.id, value)}
               width={note.width}
               height={note.height}
@@ -100,7 +86,6 @@ const App = () => {
               onTextClick={(newSelected) =>
                 handleTextClick(note.id, newSelected)
               }
-             
             />
           ))}
         </Layer>

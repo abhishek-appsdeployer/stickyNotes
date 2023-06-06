@@ -28,7 +28,7 @@ export function EditableText({
     onChange(e.currentTarget.value);
   }
 
-  if (!isEditing) {
+  if (isEditing) {
     return (
       <ResizableText
         x={x}

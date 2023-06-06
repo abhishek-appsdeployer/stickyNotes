@@ -52,7 +52,7 @@ export function StickyNote({
         perfectDrawEnabled={false}
         draggable={true}
       /> */}
-      <Rect
+      {/* <Rect
         x={0}
         y={0}
         width={width + 40}
@@ -62,7 +62,7 @@ export function StickyNote({
         onClick={onClick}
         onTap={onClick}
         draggable={true}
-      />
+      /> */}
       <EditableText
         x={20}
         y={40}
@@ -75,6 +75,8 @@ export function StickyNote({
         onToggleEdit={toggleEdit}
         onToggleTransform={toggleTransforming}
         onChange={onTextChange}
+        onClick={onClick}
+        onTap={onClick}
       />
     </Group>
   );
