@@ -36,6 +36,7 @@ export function EditableTextInput({
   onKeyDown
 }) {
   const style = getStyle(width, height);
+
   return (
     <Html groupProps={{ x, y }} divProps={{ style: { opacity: 1 } }}>
       <textarea

@@ -12,7 +12,7 @@ const App = () => {
       id: Date.now(),
       x: textPosition.x,
       y: textPosition.y,
-      text: "",
+      text: "dfdf",
       width: 200,
       height: 200,
       selected: false,
@@ -53,11 +53,25 @@ const App = () => {
     setNotes(updatedNotes);
   };
 
+ 
   const handleMouseDown = (e) => {
-    const stage = e.currentTarget.getStage();
-    const position = stage.getPointerPosition();
+    const stage = e.target.getStage();
+    const stagePosition = stage.getClientRect(); // Get the position and size of the stage
+    const stageOffsetX = stagePosition.x; // Offset of the stage on the x-axis
+    const stageOffsetY = stagePosition.y; // Offset of the stage on the y-axis
+    const pointerPosition = stage.getPointerPosition(); // Get the mouse pointer position
+    const offsetX = pointerPosition.x - stageOffsetX; // Calculate the offset on the x-axis
+    const offsetY = pointerPosition.y - stageOffsetY; // Calculate the offset on the y-axis
+  
+    const position = {
+      x: offsetX,
+      y: offsetY,
+    };
+  
     setTextPosition(position);
+   
   };
+  
 
   return (
     <div>
