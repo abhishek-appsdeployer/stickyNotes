@@ -1,17 +1,48 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React, { useState } from "react";
+import { render } from "react-dom";
+import { Stage, Layer } from "react-konva";
+import { StickyNote } from "./StickyNote";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const App = () => {
+  const [text, setText] = useState("Click to resize. Double click to edit.");
+  const [width, setWidth] = useState(200);
+  const [height, setHeight] = useState(200);
+  const [selected, setSelected] = useState(false);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+  return (
+    <Stage
+      width={window.innerWidth}
+      height={window.innerHeight}
+      onClick={(e) => {
+        if (e.currentTarget._id === e.target._id) {
+          setSelected(false);
+        }
+      }}
+    >
+      <Layer>
+        <StickyNote
+          x={1000}
+          y={50}
+          text={text}
+          colour="#FFDAE1"
+          onTextChange={(value) => setText(value)}
+          width={width}
+          height={height}
+          selected={selected}
+          onTextResize={(newWidth, newHeight) => {
+            setWidth(newWidth);
+            setHeight(newHeight);
+          }}
+          onClick={() => {
+            setSelected(!selected);
+          }}
+          onTextClick={(newSelected) => {
+            setSelected(newSelected);
+          }}
+        />
+      </Layer>
+    </Stage>
+  );
+};
+
+render(<App />, document.getElementById("root"));
