@@ -38,7 +38,7 @@ export function StickyNote({
 
   return (
     <Group x={x} y={y}>
-      <Rect
+      {/* <Rect
         x={20}
         y={20}
         width={width}
@@ -50,7 +50,8 @@ export function StickyNote({
         shadowBlur={30}
         shadowOpacity={0.6}
         perfectDrawEnabled={false}
-      />
+        draggable={true}
+      /> */}
       <Rect
         x={0}
         y={0}
@@ -60,6 +61,7 @@ export function StickyNote({
         perfectDrawEnabled={false}
         onClick={onClick}
         onTap={onClick}
+        draggable={true}
       />
       <EditableText
         x={20}

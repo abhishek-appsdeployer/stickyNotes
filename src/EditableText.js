@@ -28,29 +28,30 @@ export function EditableText({
     onChange(e.currentTarget.value);
   }
 
-  if (isEditing) {
+  if (!isEditing) {
     return (
-      <EditableTextInput
+      <ResizableText
         x={x}
         y={y}
+        isSelected={isTransforming}
+        onClick={onToggleTransform}
+        onDoubleClick={onToggleEdit}
+        onResize={onResize}
+        text={text}
         width={width}
-        height={height}
-        value={text}
-        onChange={handleTextChange}
-        onKeyDown={handleEscapeKeys}
       />
     );
   }
+  
   return (
-    <ResizableText
+    <EditableTextInput
       x={x}
       y={y}
-      isSelected={isTransforming}
-      onClick={onToggleTransform}
-      onDoubleClick={onToggleEdit}
-      onResize={onResize}
-      text={text}
       width={width}
+      height={height}
+      value={text}
+      onChange={handleTextChange}
+      onKeyDown={handleEscapeKeys}
     />
   );
 }
