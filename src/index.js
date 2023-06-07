@@ -66,29 +66,40 @@ const App = () => {
     setNotes(updatedNotes);
   };
 
+  const handleDragEnd = (id, newX, newY) => {
+    const updatedNotes = notes.map((note) => {
+      if (note.id === id) {
+        return { ...notes, x: newX, y: newY };
+      }
+      return note;
+    });
+  
+    setNotes(updatedNotes);
+  };
+  
+
   const addStickyNote = () => {
     const newNote = {
       id: Date.now(),
-      x: Math.random() * window.innerWidth,  // Generate random value between 0 and window width
-      y: Math.random() * window.innerHeight, 
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
       text: "Click to resize. Double click to edit.",
       width: 200,
       height: 200,
       selected: false,
+     
     };
-
-  
-
+    console.log(newNote.x,newNote.y)
     setNotes([...notes, newNote]);
   };
 
   return (
     <div>
-      <button onClick={addStickyNote}>Add Sticky Note</button>
+      <button onClick={addStickyNote}>Add Text</button>
       <Stage
         width={window.innerWidth}
         height={window.innerHeight}
-       
+        // onMouseDown={handleStageMouseDown}
       >
         <Layer>
           {notes.map((note) => (
@@ -103,12 +114,12 @@ const App = () => {
               height={note.height}
               selected={note.selected}
               onTextResize={(newWidth, newHeight) =>
-                handleTextResize(note.id, newWidth, newHeight)
-              }
-              onClick={() => handleNoteClick(note.id)}
-              onTextClick={(newSelected) =>
-                handleTextClick(note.id, newSelected)
-              }
+                handleTextResize(note.id, newWidth, newHeight)}
+             
+                // onClick={() => handleNoteClick(note.id)}
+                onClick={() => console.log("dfdfd")}
+              onTextClick={(newSelected) => handleTextClick(note.id, newSelected)}
+              // onDragEnd={(x,y) => handleDragEnd(note.id, x, y)}
             />
           ))}
         </Layer>
@@ -118,4 +129,3 @@ const App = () => {
 };
 
 render(<App />, document.getElementById("root"));
-

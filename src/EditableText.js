@@ -16,7 +16,10 @@ export function EditableText({
   onResize,
   text,
   width,
-  height
+  height,
+  onDragEnd,
+  onDragMove
+  
 }) {
   function handleEscapeKeys(e) {
     if ((e.keyCode === RETURN_KEY && !e.shiftKey) || e.keyCode === ESCAPE_KEY) {
@@ -51,6 +54,8 @@ export function EditableText({
       onResize={onResize}
       text={text}
       width={width}
+      // onDragEnd={onDragEnd}
+      
     />
   );
 }

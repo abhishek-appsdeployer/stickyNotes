@@ -1,5 +1,6 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Text, Transformer } from "react-konva";
+import TextStyle from "./TextStyle";
 
 export function ResizableText({
   x,
@@ -9,10 +10,15 @@ export function ResizableText({
   width,
   onResize,
   onClick,
-  onDoubleClick
+  onDoubleClick,
+  onDragEnd
 }) {
   const textRef = useRef(null);
   const transformerRef = useRef(null);
+  const  [fontf,setfontfamily]=useState("Arial")
+  const  [textDecoration,setTextDecoration]=useState(false)
+  const [fontbold,setfontBold]=useState(false)
+  const [italic,setItalic]=useState(false)
 
   useEffect(() => {
     if (isSelected && transformerRef.current !== null) {
@@ -34,6 +40,19 @@ export function ResizableText({
     }
   }
 
+  function handleDragMove(event) {
+    if (textRef.current !== null) {
+      const textNode = textRef.current;
+      const newX = textNode.x() + event.target.x();
+      const newY = textNode.y() + event.target.y();
+      textNode.setAttrs({
+        x: newX,
+        y: newY
+      });
+      onDragEnd(newX, newY);
+    }
+  }
+
   const transformer = isSelected ? (
     <Transformer
       ref={transformerRef}
@@ -49,24 +68,37 @@ export function ResizableText({
 
   return (
     <>
-      <Text
-        x={x}
-        y={y}
-        ref={textRef}
-        text={text}
-        fill="black"
-        fontFamily="sans-serif"
-        fontSize={24}
-        perfectDrawEnabled={false}
-        onTransform={handleResize}
-        onClick={onClick}
-        onTap={onClick}
-        onDblClick={onDoubleClick}
-        onDblTap={onDoubleClick}
-        width={width}
-        draggable
-      />
+     <Text
+  x={x}
+  y={y}
+  ref={textRef}
+  text={text}
+  fill="black"
+  fontFamily={fontf}
+  fontSize={24}
+  perfectDrawEnabled={false}
+  onTransform={handleResize}
+  onClick={onClick}
+  onTap={onClick}
+  onDblClick={onDoubleClick}
+  // onDragMove={handleDragMove}
+  width={width}
+  textDecoration={textDecoration?"underline":"none"}
+  fontStyle={italic ?"italic":"normal"}
+  fontWeight={fontbold?"normal":"bold" }
+  draggable
+/>
+
       {transformer}
+
+      {
+        isSelected ? <TextStyle 
+          fontFamily={(re)=>setfontfamily(re)}
+          onTextDecoration={()=>setTextDecoration(!textDecoration)}
+          onFontWeight={()=>setfontBold(!fontbold)}
+  onItalicChange={()=>setItalic(!italic)}
+        />:null
+      }
     </>
   );
 }

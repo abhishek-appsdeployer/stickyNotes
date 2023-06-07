@@ -13,7 +13,8 @@ export function StickyNote({
   onTextResize,
   onTextChange,
   selected,
-  onTextClick
+  onTextClick,onDragEnd,
+  onDragMove
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isTransforming, setIsTransforming] = useState(false);
@@ -75,6 +76,9 @@ export function StickyNote({
         onChange={onTextChange}
         onClick={onClick}
         onTap={onClick}
+        onDragEnd={onDragEnd}
+        // onDragMove={onDragMove}
+        
       />
     </Group>
   );
