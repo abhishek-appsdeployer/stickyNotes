@@ -50,7 +50,6 @@ export function StickyNote({
         shadowBlur={30}
         shadowOpacity={0.6}
         perfectDrawEnabled={false}
-        draggable={true}
       /> */}
       {/* <Rect
         x={0}
@@ -61,7 +60,6 @@ export function StickyNote({
         perfectDrawEnabled={false}
         onClick={onClick}
         onTap={onClick}
-        draggable={true}
       /> */}
       <EditableText
         x={20}

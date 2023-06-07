@@ -5,14 +5,15 @@ import { StickyNote } from "./StickyNote";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
-  const [textPosition, setTextPosition] = useState({ x: 0, y: 0 });
 
-  const addStickyNote = () => {
+  const handleStageMouseDown = (event) => {
+    const { offsetX, offsetY } = event.evt;
+
     const newNote = {
       id: Date.now(),
-      x: textPosition.x,
-      y: textPosition.y,
-      text: "dfdf",
+      x: offsetX,
+      y: offsetY,
+      text: "Click to resize. Double click to edit.",
       width: 200,
       height: 200,
       selected: false,
@@ -22,56 +23,64 @@ const App = () => {
   };
 
   const handleTextChange = (id, value) => {
-    const updatedNotes = notes.map((note) =>
-      note.id === id ? { ...note, text: value } : note
-    );
+    const updatedNotes = notes.map((note) => {
+      if (note.id === id) {
+        return { ...note, text: value };
+      }
+      return note;
+    });
 
     setNotes(updatedNotes);
   };
 
   const handleTextResize = (id, newWidth, newHeight) => {
-    const updatedNotes = notes.map((note) =>
-      note.id === id ? { ...note, width: newWidth, height: newHeight } : note
-    );
+    const updatedNotes = notes.map((note) => {
+      if (note.id === id) {
+        return { ...note, width: newWidth, height: newHeight };
+      }
+      return note;
+    });
 
     setNotes(updatedNotes);
   };
 
   const handleNoteClick = (id) => {
-    const updatedNotes = notes.map((note) =>
-      note.id === id ? { ...note, selected: !note.selected } : note
-    );
+    const updatedNotes = notes.map((note) => {
+      if (note.id === id) {
+        return { ...note, selected: !note.selected };
+      }
+      return note;
+    });
 
     setNotes(updatedNotes);
   };
 
   const handleTextClick = (id, newSelected) => {
-    const updatedNotes = notes.map((note) =>
-      note.id === id ? { ...note, selected: newSelected } : note
-    );
+    const updatedNotes = notes.map((note) => {
+      if (note.id === id) {
+        return { ...note, selected: newSelected };
+      }
+      return note;
+    });
 
     setNotes(updatedNotes);
   };
 
- 
-  const handleMouseDown = (e) => {
-    const stage = e.target.getStage();
-    const stagePosition = stage.getClientRect(); // Get the position and size of the stage
-    const stageOffsetX = stagePosition.x; // Offset of the stage on the x-axis
-    const stageOffsetY = stagePosition.y; // Offset of the stage on the y-axis
-    const pointerPosition = stage.getPointerPosition(); // Get the mouse pointer position
-    const offsetX = pointerPosition.x - stageOffsetX; // Calculate the offset on the x-axis
-    const offsetY = pointerPosition.y - stageOffsetY; // Calculate the offset on the y-axis
-  
-    const position = {
-      x: offsetX,
-      y: offsetY,
+  const addStickyNote = () => {
+    const newNote = {
+      id: Date.now(),
+      x: Math.random() * window.innerWidth,  // Generate random value between 0 and window width
+      y: Math.random() * window.innerHeight, 
+      text: "Click to resize. Double click to edit.",
+      width: 200,
+      height: 200,
+      selected: false,
     };
+
   
-    setTextPosition(position);
-   
+
+    setNotes([...notes, newNote]);
   };
-  
 
   return (
     <div>
@@ -79,7 +88,7 @@ const App = () => {
       <Stage
         width={window.innerWidth}
         height={window.innerHeight}
-        onMouseDown={handleMouseDown}
+       
       >
         <Layer>
           {notes.map((note) => (
@@ -88,7 +97,7 @@ const App = () => {
               x={note.x}
               y={note.y}
               text={note.text}
-              color="#FFDAE1"
+              colour="#FFDAE1"
               onTextChange={(value) => handleTextChange(note.id, value)}
               width={note.width}
               height={note.height}
@@ -109,3 +118,4 @@ const App = () => {
 };
 
 render(<App />, document.getElementById("root"));
+

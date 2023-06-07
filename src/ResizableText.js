@@ -38,8 +38,8 @@ export function ResizableText({
     <Transformer
       ref={transformerRef}
       rotateEnabled={false}
-      flipEnabled={true}
-      // enabledAnchors={["middle-left", "middle-right"]}
+      flipEnabled={false}
+      enabledAnchors={["middle-left", "middle-right"]}
       boundBoxFunc={(oldBox, newBox) => {
         newBox.width = Math.max(30, newBox.width);
         return newBox;

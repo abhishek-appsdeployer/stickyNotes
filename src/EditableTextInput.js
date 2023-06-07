@@ -14,8 +14,7 @@ function getStyle(width, height) {
     resize: "none",
     colour: "black",
     fontSize: "24px",
-    fontFamily: "sans-serif",
-    
+    fontFamily: "sans-serif"
   };
   if (isFirefox) {
     return baseStyle;
@@ -36,7 +35,6 @@ export function EditableTextInput({
   onKeyDown
 }) {
   const style = getStyle(width, height);
-
   return (
     <Html groupProps={{ x, y }} divProps={{ style: { opacity: 1 } }}>
       <textarea
