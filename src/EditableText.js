@@ -16,10 +16,7 @@ export function EditableText({
   onResize,
   text,
   width,
-  height,
-  onDragEnd,
-  onDragMove
-  
+  height
 }) {
   function handleEscapeKeys(e) {
     if ((e.keyCode === RETURN_KEY && !e.shiftKey) || e.keyCode === ESCAPE_KEY) {
@@ -31,7 +28,7 @@ export function EditableText({
     onChange(e.currentTarget.value);
   }
 
-  if (isEditing) {
+  if (!isEditing) {
     return (
       <EditableTextInput
         x={x}
@@ -44,18 +41,5 @@ export function EditableText({
       />
     );
   }
-  return (
-    <ResizableText
-      x={x}
-      y={y}
-      isSelected={isTransforming}
-      onClick={onToggleTransform}
-      onDoubleClick={onToggleEdit}
-      onResize={onResize}
-      text={text}
-      width={width}
-      // onDragEnd={onDragEnd}
-      
-    />
-  );
+  
 }

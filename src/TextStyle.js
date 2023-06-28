@@ -102,6 +102,18 @@ const TextStyle = ({
         >
           U
         </button>
+        <button
+          onClick={handleUnderlineClick}
+          style={getButtonStyle(isUnderline)}
+        >
+          +
+        </button>
+        <button
+          onClick={handleUnderlineClick}
+          style={getButtonStyle(isUnderline)}
+        >
+          -
+        </button>
         <span>
           <i
             className="fa fa-align-left"

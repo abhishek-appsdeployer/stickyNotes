@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Group, Rect } from "react-konva";
 import { EditableText } from "./EditableText";
 
-export function StickyNote({
+export default function StickyNote({
   colour,
   text,
   x,
@@ -13,8 +13,7 @@ export function StickyNote({
   onTextResize,
   onTextChange,
   selected,
-  onTextClick,onDragEnd,
-  onDragMove
+  onTextClick,
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isTransforming, setIsTransforming] = useState(false);
@@ -36,23 +35,12 @@ export function StickyNote({
     setIsTransforming(!isTransforming);
     onTextClick(!isTransforming);
   }
+  const [textX, setTextX] = useState(x);
+  const [textY, setTextY] = useState(y);
 
   return (
     <Group x={x} y={y}>
-      {/* <Rect
-        x={20}
-        y={20}
-        width={width}
-        height={height + 40}
-        fill={colour}
-        shadowColor="black"
-        shadowOffsetY={10}
-        shadowOffsetX={0}
-        shadowBlur={30}
-        shadowOpacity={0.6}
-        perfectDrawEnabled={false}
-      /> */}
-      {/* <Rect
+      <Rect
         x={0}
         y={0}
         width={width + 40}
@@ -61,24 +49,31 @@ export function StickyNote({
         perfectDrawEnabled={false}
         onClick={onClick}
         onTap={onClick}
-      /> */}
+        draggable
+        onDragEnd={(e) => {
+          const newX = e.target.x();
+          const newY = e.target.y();
+          onClick();
+          // Update the x and y values of the sticky note
+          // and the textX and textY values of the editable text component
+          x = newX;
+          y = newY;
+          setTextX(newX + 5);
+          setTextY(newY);
+        }}
+      />
       <EditableText
-        x={20}
-        y={40}
+        x={textX + 20}
+        y={textY + 40}
         text={text}
         width={width}
-        height={height}
+        height={height - 10}
         onResize={onTextResize}
         isEditing={isEditing}
         isTransforming={isTransforming}
         onToggleEdit={toggleEdit}
         onToggleTransform={toggleTransforming}
         onChange={onTextChange}
-        onClick={onClick}
-        onTap={onClick}
-        onDragEnd={onDragEnd}
-        // onDragMove={onDragMove}
-        
       />
     </Group>
   );
